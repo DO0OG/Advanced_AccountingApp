@@ -1,12 +1,188 @@
-﻿<Window x:Class="HouseHold.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:HouseHold"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+﻿<Window
+    x:Class="AccountingApp.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="스마트 가계부"
+    Width="1000"
+    Height="600"
+    Background="#F0F0F0">
+    <Window.Resources>
+        <Style x:Key="PlaceholderTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <TextBlock
+                                    x:Name="PlaceholderText"
+                                    Margin="5,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Foreground="Gray"
+                                    Text="{TemplateBinding Tag}"
+                                    Visibility="Collapsed" />
+                                <ScrollViewer
+                                    x:Name="PART_ContentHost"
+                                    Margin="5,2"
+                                    VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Text" Value="">
+                                <Setter TargetName="PlaceholderText" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
+        <Style x:Key="TransactionTypeToggleButton" TargetType="RadioButton">
+            <Setter Property="Background" Value="#EEEEEE" />
+            <Setter Property="Foreground" Value="#333333" />
+            <Setter Property="BorderBrush" Value="#CCCCCC" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="10,5" />
+            <Setter Property="Margin" Value="0,0,5,0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="3">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Background" Value="#2C3E50" />
+                                <Setter Property="Foreground" Value="White" />
+                                <Setter Property="BorderBrush" Value="#2C3E50" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="MenuButtonStyle" TargetType="RadioButton">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="10,5" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border
+                            x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#4A6785" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#2C3E50" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--  상단 바  -->
+        <DockPanel
+            Grid.Row="0"
+            Background="#2C3E50"
+            LastChildFill="True">
+            <Button
+                x:Name="MenuToggleButton"
+                Padding="15,10"
+                Background="Transparent"
+                BorderThickness="0"
+                Click="MenuToggleButton_Click"
+                Content="☰"
+                FontSize="20"
+                Foreground="White" />
+            <TextBlock
+                x:Name="CurrentMenuLabel"
+                Margin="10,0,0,0"
+                VerticalAlignment="Center"
+                FontSize="20"
+                Foreground="White"
+                Text="대시보드" />
+        </DockPanel>
+
+        <!--  메인 콘텐츠 영역  -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!--  왼쪽 메뉴 패널  -->
+            <Grid
+                x:Name="LeftMenu"
+                Grid.Column="0"
+                Width="200">
+                <Border Background="#34495E">
+                    <StackPanel x:Name="MenuPanel">
+                        <RadioButton
+                            Margin="10,10,10,5"
+                            Click="MenuButton_Click"
+                            Content="대시보드"
+                            FontSize="20"
+                            GroupName="MenuButtons"
+                            Style="{StaticResource MenuButtonStyle}" />
+                        <RadioButton
+                            Margin="10,5,10,5"
+                            Click="MenuButton_Click"
+                            Content="거래 내역"
+                            FontSize="20"
+                            GroupName="MenuButtons"
+                            Style="{StaticResource MenuButtonStyle}" />
+                        <RadioButton
+                            Margin="10,5,10,5"
+                            Click="MenuButton_Click"
+                            Content="예산 관리"
+                            FontSize="20"
+                            GroupName="MenuButtons"
+                            Style="{StaticResource MenuButtonStyle}" />
+                        <RadioButton
+                            Margin="10,5,10,5"
+                            Click="MenuButton_Click"
+                            Content="보고서"
+                            FontSize="20"
+                            GroupName="MenuButtons"
+                            Style="{StaticResource MenuButtonStyle}" />
+                        <RadioButton
+                            Margin="10,5,10,10"
+                            Click="MenuButton_Click"
+                            Content="설정"
+                            FontSize="20"
+                            GroupName="MenuButtons"
+                            Style="{StaticResource MenuButtonStyle}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!--  메인 콘텐츠  -->
+            <Frame x:Name="MainFrame" Grid.Column="1" NavigationUIVisibility="Hidden" />
+        </Grid>
     </Grid>
 </Window>

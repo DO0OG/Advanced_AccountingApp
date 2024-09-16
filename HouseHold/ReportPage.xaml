@@ -1,0 +1,188 @@
+﻿<Page
+    x:Class="AccountingApp.ReportPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+    Title="보고서">
+    <ScrollViewer>
+        <StackPanel Margin="20">
+            <TextBlock
+                Margin="0,0,0,20"
+                FontSize="24"
+                FontWeight="Bold"
+                Text="재무 보고서" />
+
+            <!--  기간 선택  -->
+            <StackPanel Margin="0,0,0,20" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="기간 선택: " />
+                <ComboBox
+                    x:Name="PeriodSelector"
+                    Width="120"
+                    SelectedIndex="0">
+                    <ComboBoxItem Content="이번 달" />
+                    <ComboBoxItem Content="지난 3개월" />
+                    <ComboBoxItem Content="지난 6개월" />
+                    <ComboBoxItem Content="올해" />
+                    <ComboBoxItem Content="작년" />
+                </ComboBox>
+            </StackPanel>
+
+            <!--  통계 차트  -->
+            <Border
+                Margin="0,0,0,20"
+                Padding="10"
+                BorderBrush="LightGray"
+                BorderThickness="1">
+                <StackPanel>
+                    <TextBlock
+                        Margin="0,0,0,10"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Text="통계 차트" />
+                    <lvc:PieChart x:Name="StatisticsPieChart" Height="300" />
+                </StackPanel>
+            </Border>
+
+            <!--  월별 수입/지출 요약  -->
+            <Border
+                Margin="0,0,0,20"
+                Padding="10"
+                BorderBrush="LightGray"
+                BorderThickness="1">
+                <StackPanel>
+                    <TextBlock
+                        Margin="0,0,0,10"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Text="월별 수입/지출 요약" />
+                    <lvc:CartesianChart x:Name="MonthlyIncomeExpenseChart" Height="300" />
+                </StackPanel>
+            </Border>
+
+            <!--  분기별/연간 수입/지출 분석  -->
+            <Border
+                Margin="0,0,0,20"
+                Padding="10"
+                BorderBrush="LightGray"
+                BorderThickness="1">
+                <StackPanel>
+                    <TextBlock
+                        Margin="0,0,0,10"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Text="분기별/연간 수입/지출 분석" />
+                    <lvc:CartesianChart x:Name="QuarterlyYearlyAnalysisChart" Height="300" />
+                </StackPanel>
+            </Border>
+
+            <!--  카테고리별 지출 분석  -->
+            <Border
+                Margin="0,0,0,20"
+                Padding="10"
+                BorderBrush="LightGray"
+                BorderThickness="1">
+                <StackPanel>
+                    <TextBlock
+                        Margin="0,0,0,10"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Text="카테고리별 지출 분석" />
+                    <lvc:PieChart x:Name="CategorySpendingChart" Height="300" />
+                </StackPanel>
+            </Border>
+
+            <!--  수입/지출 트렌드  -->
+            <Border
+                Margin="0,0,0,20"
+                Padding="10"
+                BorderBrush="LightGray"
+                BorderThickness="1">
+                <StackPanel>
+                    <TextBlock
+                        Margin="0,0,0,10"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Text="수입/지출 트렌드" />
+                    <lvc:CartesianChart x:Name="IncomeExpenseTrendChart" Height="300" />
+                </StackPanel>
+            </Border>
+
+            <!--  비정상적 지출 탐지  -->
+            <Border
+                Margin="0,0,0,20"
+                Padding="10"
+                BorderBrush="LightGray"
+                BorderThickness="1">
+                <StackPanel>
+                    <TextBlock
+                        Margin="0,0,0,10"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Text="비정상적 지출 탐지" />
+                    <DataGrid
+                        x:Name="AnomalousSpendingGrid"
+                        Height="200"
+                        AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Date}" Header="날짜" />
+                            <DataGridTextColumn Binding="{Binding Category}" Header="카테고리" />
+                            <DataGridTextColumn Binding="{Binding Amount}" Header="금액" />
+                            <DataGridTextColumn Binding="{Binding Difference}" Header="평균 대비" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+
+            <!--  예산 대비 실적  -->
+            <Border
+                Margin="0,0,0,20"
+                Padding="10"
+                BorderBrush="LightGray"
+                BorderThickness="1">
+                <StackPanel>
+                    <TextBlock
+                        Margin="0,0,0,10"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Text="예산 대비 실적" />
+                    <lvc:CartesianChart x:Name="BudgetPerformanceChart" Height="300" />
+                </StackPanel>
+            </Border>
+
+            <!--  결제 수단별 지출  -->
+            <Border
+                Margin="0,0,0,20"
+                Padding="10"
+                BorderBrush="LightGray"
+                BorderThickness="1">
+                <StackPanel>
+                    <TextBlock
+                        Margin="0,0,0,10"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Text="결제 수단별 지출" />
+                    <lvc:PieChart x:Name="PaymentMethodChart" Height="300" />
+                </StackPanel>
+            </Border>
+
+            <!--  잔액 추이 분석  -->
+            <Border
+                Margin="0,0,0,20"
+                Padding="10"
+                BorderBrush="LightGray"
+                BorderThickness="1">
+                <StackPanel>
+                    <TextBlock
+                        Margin="0,0,0,10"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Text="잔액 추이 분석" />
+                    <lvc:CartesianChart x:Name="BalanceTrendChart" Height="300" />
+                </StackPanel>
+            </Border>
+
+            <!--  보고서 텍스트  -->
+            <TextBlock x:Name="ReportTextBlock" TextWrapping="Wrap" Margin="10"/>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

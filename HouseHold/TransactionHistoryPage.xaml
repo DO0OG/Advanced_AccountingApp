@@ -1,0 +1,98 @@
+﻿<Page
+    x:Class="AccountingApp.TransactionHistoryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="거래 내역">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--  제목  -->
+        <TextBlock
+            Grid.Row="0"
+            Margin="0,0,0,20"
+            FontSize="24"
+            FontWeight="Bold"
+            Text="거래 내역" />
+
+        <!--  필터 섹션  -->
+        <StackPanel
+            Grid.Row="1"
+            Margin="0,0,0,20"
+            Orientation="Horizontal">
+            <DatePicker
+                x:Name="StartDatePicker"
+                Width="120"
+                Margin="0,0,10,0" />
+            <DatePicker
+                x:Name="EndDatePicker"
+                Width="120"
+                Margin="0,0,10,0" />
+            <ComboBox
+                x:Name="CategoryFilter"
+                Width="120"
+                Margin="0,0,10,0">
+                <ComboBoxItem Content="모든 카테고리" />
+                <ComboBoxItem Content="수입" />
+                <ComboBoxItem Content="지출" />
+                <ComboBoxItem Content="이체" />
+            </ComboBox>
+            <Button
+                Width="100"
+                Background="#2C3E50"
+                Content="필터 적용"
+                Foreground="White" />
+        </StackPanel>
+
+        <!--  거래 내역 목록  -->
+        <DataGrid
+            x:Name="TransactionsDataGrid"
+            Grid.Row="2"
+            AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            CanUserDeleteRows="False"
+            IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="100"
+                    Binding="{Binding Date, StringFormat={}{0:yyyy-MM-dd}}"
+                    Header="날짜" />
+                <DataGridTextColumn
+                    Width="80"
+                    Binding="{Binding Type}"
+                    Header="유형" />
+                <DataGridTextColumn
+                    Width="120"
+                    Binding="{Binding Category}"
+                    Header="카테고리" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Description}"
+                    Header="내용" />
+                <DataGridTextColumn
+                    Width="120"
+                    Binding="{Binding Amount, StringFormat={}{0:N0}원}"
+                    Header="금액">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTemplateColumn Width="100" Header="작업">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Margin="0,0,5,0" Content="수정" />
+                                <Button Content="삭제" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

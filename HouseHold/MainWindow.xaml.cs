@@ -35,17 +35,27 @@ namespace AccountingApp
 
         private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is RadioButton clickedButton)
+            if (sender is RadioButton clickedButton && clickedButton.Content is string content)
             {
-                CurrentMenuLabel.Text = clickedButton.Content?.ToString() ?? string.Empty;
+                if (CurrentMenuLabel != null)
+                {
+                    CurrentMenuLabel.Text = content;
+                }
 
-                switch (clickedButton.Content?.ToString())
+                switch (content)
                 {
                     case "대시보드":
-                        LoadDashboard();
+                        MainFrame?.Navigate(new DashboardPage());
                         break;
-                    // 다른 메뉴 항목에 대한 케이스 추가
-                    // ...
+                    case "거래 내역":
+                        MainFrame?.Navigate(new TransactionHistoryPage());
+                        break;
+                    case "예산 관리":
+                        MainFrame?.Navigate(new BudgetManagementPage());
+                        break;
+                    case "보고서":
+                        MainFrame?.Navigate(new ReportPage());
+                        break;
                 }
             }
         }
